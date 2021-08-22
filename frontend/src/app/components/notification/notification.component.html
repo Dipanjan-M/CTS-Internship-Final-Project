@@ -1,0 +1,47 @@
+<h2 *ngIf="isAdmin()">Send Notification</h2>
+<hr *ngIf="isAdmin()">
+<div class="form-group" *ngIf="isAdmin()">
+    <div class="form-group">
+        <label for="title">Notification Title</label>
+        <input type="text" [(ngModel)]="notification.subject" name="subject" aria-label="subject" id="subject"
+            placeholder="Notification Subject" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="title">Notification description</label>
+        <textarea [(ngModel)]="notification.body" name="body" id="body" placeholder="Describe your notice here"
+            cols="30" rows="10" class="form-control"></textarea>
+    </div>
+    <div>
+        <a (click)="submitNotification()" class="btn btn-primary" style="color: white;">Send</a>
+    </div>
+</div>
+<div *ngIf="isAdmin(); else elseblock">
+
+    <div *ngFor="let i of notificationData" class="card mt-3 mb-3">
+        <div class="card-header d-flex justify-content-between">
+            <h6 class="card-title">
+                {{i.subject}}
+            </h6>
+            <div *ngIf="isAdmin()" (click)="deleteNotification(i.id)" style="cursor: pointer;">
+                &times;
+            </div>
+        </div>
+        <div class="card-body">
+            <span>Date: {{i.createDate | date:'shortDate'}} </span>
+            <p class="card-text">{{i.body}}</p>
+        </div>
+    </div>
+</div>
+<ng-template #elseblock>
+    <div *ngFor="let i of notificationEmployeeData" class="card mt-3 mb-3">
+        <div class="card-header d-flex justify-content-between">
+            <h6 class="card-title">
+                {{i.subject}}
+            </h6>
+        </div>
+        <div class="card-body">
+            <span>Date: {{i.createDate | date:'shortDate'}} </span>
+            <p class="card-text">{{i.body}}</p>
+        </div>
+    </div>
+</ng-template>

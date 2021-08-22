@@ -1,0 +1,245 @@
+<div *ngIf="!flag">
+
+  <h3 class="m-3">Add Product</h3>
+  <hr>
+  <form #f="ngForm" (ngSubmit)="submit(f)">
+    <div class="row gy-2 gx-3 align-items-center">
+      <div class="col">
+        <label for="productName" class="form-label">
+          Category Name <a href="/category"><i class="bi bi-plus-lg"></i></a>
+        </label>
+
+        <select class="form-control" id="categoryId" name="categoryId" [(ngModel)]="newCategoryId">
+          <option selected="true"> --Select Category-- </option>
+          <option *ngFor="let category of categoryMap" [ngValue]="category.id">{{category.categoryName}}</option>
+        </select>
+
+      </div>
+      <div class="col">
+        <label for="productName" class="form-label">Product Name</label>
+        <input required ngModel name="productName" #productName="ngModel" type="text" class="form-control"
+          placeholder="Product Name" aria-label="Product Name" id="productName">
+        <div class="alert alert-danger" *ngIf="productName.touched && !productName.valid">
+          <div *ngIf="productName.errors?.required">Product name is required</div>
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="mrp" class="form-label">MRP</label>
+        <input required ngModel name="mrp" #mrp="ngModel" type="number" class="form-control" placeholder="MRP"
+          aria-label="MRP" id="mrp">
+        <div class="alert alert-danger" *ngIf="mrp.touched && !mrp.valid">
+          <div *ngIf="mrp.errors?.required">MRP is required</div>
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="quantity" class="form-label">Quantity</label>
+        <input required ngModel name="quantity" #quantity="ngModel" type="number" class="form-control"
+          placeholder="Quantity" aria-label="Quantity" id="quantity">
+        <div class="alert alert-danger" *ngIf="quantity.touched && !quantity.valid">
+          <div *ngIf="quantity.errors?.required">Quantity is required</div>
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="expiryDate" class="form-label">Expiry Date</label>
+        <input ngModel name="exp" #expiryDate="ngModel" type="date" class="form-control" placeholder="Expiry Date"
+          aria-label="Expiry Date" id="expiryDate">
+        <div class="alert alert-danger" *ngIf="expiryDate.touched && !expiryDate.valid">
+          <div *ngIf="expiryDate.errors?.required">expiryDate is required</div>
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="mfd" class="form-label">Manufacturing Date</label>
+        <input ngModel name="mfd" #mfd="ngModel" type="date" class="form-control" placeholder="Manufacturing Date"
+          aria-label="Manufacturing Date" id="mfd">
+        <div class="alert alert-danger" *ngIf="mfd.touched && !mfd.valid">
+          <div *ngIf="mfd.errors?.required">Manufacturing Date is required</div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="row">
+      <div class="col p-2 m-2">
+        <button class="btn btn-primary" [disabled]="!f.valid">Add Product</button>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+
+<div *ngIf="flag">
+  <h3 class="m-3">Update Product</h3>
+  <hr>
+  <form #fModal="ngForm" (ngSubmit)="updateProduct(fModal)">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label for="productName1" class="form-label">Product Name</label>
+        <input required ngModel name="productName1" #productName1="ngModel" type="text" class="form-control"
+          placeholder="Product Name" aria-label="Product Name" id="productName1" [(ngModel)]="product.productName">
+        <div class="alert alert-danger" *ngIf="productName1.touched && !productName1.valid">
+          <div *ngIf="productName1.errors?.required">Product name is required</div>
+        </div>
+      </div>
+
+
+      <div class="col-md-4">
+        <label for="expiryDate1" class="form-label">Expiry Date</label>
+        <input ngModel name="expiryDate1" #expiryDate1="ngModel" type="date" class="form-control"
+          placeholder="Expiry Date" aria-label="Expiry Date" id="expiryDate1"
+          [ngModel]="product.exp | date:'yyyy-MM-dd'">
+      </div>
+
+      <div class="col-md-4">
+        <label for="mfd1" class="form-label">Manufacturing Date</label>
+        <input ngModel name="mfd1" #mfd1="ngModel" type="date" class="form-control" placeholder="Manufacturing Date"
+          aria-label="Manufacturing Date" id="mfd1" [ngModel]="product.mfd |  date:'yyyy-MM-dd'">
+        <div class="alert alert-danger" *ngIf="mfd1.touched && !mfd1.valid">
+          <div *ngIf="mfd1.errors?.required">Manufacturing Date is required</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="mrp1" class="form-label">MRP</label>
+        <input required ngModel name="mrp1" #mrp1="ngModel" type="number" class="form-control" placeholder="MRP"
+          aria-label="MRP" id="mrp1" [(ngModel)]="product.mrp">
+        <div class="alert alert-danger" *ngIf="mrp1.touched && !mrp1.valid">
+          <div *ngIf="mrp1.errors?.required">MRP is required</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="quantity1" class="form-label">Quantity</label>
+        <input required ngModel name="quantity1" #quantity1="ngModel" type="number" class="form-control"
+          placeholder="Quantity" aria-label="Quantity" id="quantity1" [(ngModel)]="product.quantity">
+        <div class="alert alert-danger" *ngIf="quantity1.touched && !quantity1.valid">
+          <div *ngIf="quantity1.errors?.required">Quantity1 is required</div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="row">
+      <div class="col p-2 m-2">
+        <button class="btn btn-primary" [disabled]="!fModal.valid">Update Product</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+
+<h3>Product Details</h3>
+<hr>
+<div class="table-responsive">
+  <table class="table table-primary table-striped">
+    <thead>
+      <tr>
+        <th *ngFor="let row of productHeaders">{{row}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pdt of dataSource; let i = index">
+        <td>{{ i+1 }}</td>
+        <td>{{pdt.productName}}</td>
+        <td>{{pdt.categoryName}}</td>
+        <td>{{pdt.taxSlab/100 | percent}}</td>
+        <td>{{pdt.quantity}}</td>
+        <td>{{pdt.mrp | currency:"INR":true}}</td>
+        <td>{{pdt.mfd | date:'shortDate'}}</td>
+        <td>{{pdt.exp | date:'shortDate'}}</td>
+        <td>
+          <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            (click)="inflateInputFields(pdt.id, pdt.productName, pdt.mrp, pdt.quantity, pdt.mfd, pdt.exp, pdt.categoryId)">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          &nbsp;
+          <button class="btn btn-sm btn-danger" (click)=deleteProduct(pdt.id)>
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!--Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #fModal="ngForm" (ngSubmit)="submit(fModal)">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="productName1" class="form-label">Product Name</label>
+              <input required ngModel name="productName1" #productName1="ngModel" type="text" class="form-control"
+                placeholder="Product Name" aria-label="Product Name" id="productName1" [value]="product.productName">
+              <div class="alert alert-danger" *ngIf="productName1.touched && !productName1.valid">
+                <div *ngIf="productName1.errors?.required">Product name is required</div>
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <label for="expiryDate1" class="form-label">Expiry Date</label>
+              <input ngModel name="expiryDate1" #expiryDate1="ngModel" type="date" class="form-control"
+                placeholder="Expiry Date" aria-label="Expiry Date" id="expiryDate1"
+                value="product.exp | date:'shortDate'">
+            </div>
+
+            <div class="col-md-6">
+              <label for="mfd1" class="form-label">Manufacturing Date</label>
+              <input ngModel name="mfd1" #mfd1="ngModel" type="date" class="form-control"
+                placeholder="Manufacturing Date" aria-label="Manufacturing Date" id="mfd1" [value]="product.mfd">
+              <div class="alert alert-danger" *ngIf="mfd1.touched && !mfd1.valid">
+                <div *ngIf="mfd1.errors?.required">Manufacturing Date is required</div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col">
+            <label for="mrp1" class="form-label">MRP</label>
+            <input required ngModel name="mrp1" #mrp1="ngModel" type="number" class="form-control" placeholder="MRP"
+              aria-label="MRP" id="mrp1" [value]="product.mrp">
+            <div class="alert alert-danger" *ngIf="mrp1.touched && !mrp1.valid">
+              <div *ngIf="mrp1.errors?.required">MRP is required</div>
+            </div>
+          </div>
+
+          <div class="col">
+            <label for="quantity1" class="form-label">Quantity</label>
+            <input required ngModel name="quantity1" #quantity1="ngModel" type="number" class="form-control"
+              placeholder="Quantity" aria-label="Quantity" id="quantity1" [value]="product.quantity">
+            <div class="alert alert-danger" *ngIf="quantity1.touched && !quantity1.valid">
+              <div *ngIf="quantity1.errors?.required">Quantity1 is required</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col p-2 m-2">
+              <button class="btn btn-primary" [disabled]="!fModal.valid">Update Product</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

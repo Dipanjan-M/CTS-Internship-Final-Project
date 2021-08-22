@@ -1,0 +1,110 @@
+<div *ngIf="!flag">
+    <h3 class="mt-3">Add Category</h3>
+    <hr>
+    <form #f="ngForm" (ngSubmit)="submit(f)">
+        <div class="row">
+            <div class="col">
+                <label for="categoryName" class="form-label">Category Name</label>
+                <input required ngModel name="categoryName" #categoryName="ngModel" minlength="4" maxlength="30" type="text"
+                    class="form-control" placeholder="Category Name" aria-label="Category Name" id="categoryName">
+                <div class="alert alert-danger" *ngIf="categoryName.touched && !categoryName.valid">
+                    <div *ngIf="categoryName.errors?.required">Category name is required</div>
+                    <div *ngIf="categoryName.errors?.minlength">Category name must be atleast
+                        {{categoryName.errors?.minlength.requiredLength}} character</div>
+                </div>
+            </div>
+            <div class="col">
+                <label for="taxSlab" class="form-label">Tax Slab</label>
+                <input required ngModel name="taxSlab" #taxSlab="ngModel" type="text" class="form-control"
+                    placeholder="Tax Slab" aria-label="Tax Slab" id="taxSlab">
+                <div class="alert alert-danger" *ngIf="taxSlab.touched && !taxSlab.valid">
+                    <div *ngIf="taxSlab.errors?.required">Tax Slab is required</div>
+                    <div *ngIf="taxSlab.errors?.minlength">Tax Slab must be atleast
+                        {{taxSlab.errors?.minlength.requiredLength}} character</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-2 m-2">
+                <button class="btn btn-primary" [disabled]="!f.valid">Add Category</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div *ngIf="flag">
+    <h3 class="mt-3">Update Category</h3>
+    <hr>
+    <form #fModal="ngForm" (ngSubmit)="updateCategorySubmit(fModal,categoryId);">
+        <div class="row">
+            <div class="col">
+                <label for="categoryName1" class="form-label">Category Name</label>
+                <input required ngModel name="categoryName1" #categoryName1="ngModel" minlength="4"
+                    maxlength="30" type="text" class="form-control" placeholder="Category Name"
+                    aria-label="Category Name" id="categoryName1" [(ngModel)]="category.categoryName">
+                <div class="alert alert-danger" *ngIf="categoryName1.touched && !categoryName1.valid">
+                    <div *ngIf="categoryName1.errors?.required">Category name is required</div>
+                    <div *ngIf="categoryName1.errors?.minlength">Category name must be atleast
+                        {{categoryName1.errors?.minlength.requiredLength}} character</div>
+                </div>
+            </div>
+           
+            <div class="col">
+                <label for="taxSlab1" class="form-label">Tax Slab</label>
+                <input required ngModel name="taxSlab1" #taxSlab1="ngModel" type="text" class="form-control"
+                    placeholder="Tax Slab" aria-label="Tax Slab" id="taxSlab1" [(ngModel)]="category.taxSlab">
+                <div class="alert alert-danger" *ngIf="taxSlab1.touched && !taxSlab1.valid">
+                    <div *ngIf="taxSlab1.errors?.required">Tax Slab is required</div>
+                    <div *ngIf="taxSlab1.errors?.minlength">Tax Slab must be atleast
+                        {{taxSlab1.errors?.minlength.requiredLength}} character</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-2 m-2">
+                <button class="btn btn-primary" [disabled]="!fModal.valid" data-bs-dismiss="modal">Save
+                    Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<hr>
+
+<h3>Category Details</h3>
+<hr>
+<div class="table-responsive">
+    <table class="table table-warning table-striped table-sm text-center">
+        <thead>
+            <tr>
+                <th>Category Id</th>
+                <th>Category Name</th>
+                <th>Tax Slab</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of dataSource; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{row.categoryName}}</td>
+                <td>{{row.taxSlab/100 | percent}}</td>
+                <td>
+                   
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    (click)="updateCategory(row.id,row.categoryName,row.taxSlab)" >
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-sm btn-danger" (click)="deleteCategory(row.id)">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </td>
+             
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+

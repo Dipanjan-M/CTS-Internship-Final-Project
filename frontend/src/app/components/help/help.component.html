@@ -1,0 +1,73 @@
+<div *ngIf="resolveIssue && isAdmin()">
+  <h2>Raise an Issue</h2>
+  <hr>
+  <form #f="ngForm" (ngSubmit)="submit1(f)">
+    <div class="form-group">
+      <input type="number" [(ngModel)]="issueId" name="issueId" class="form-control" id="issueId" [value]="issueId">
+    </div>
+    <div class="form-group">
+      <label for="issueResponse">Issue Response</label>
+      <textarea ngModel name="response" #response="ngModel" class="form-control" id="response" rows="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<br>
+<h3>Issue Details</h3>
+<hr>
+<div class="table-responsive">
+  <table class="table table-light table-striped">
+    <thead>
+      <tr *ngIf="isAdmin()">
+        <th *ngFor="let row of adminIssueHeaders">{{row}}</th>
+      </tr>
+      <tr *ngIf="!isAdmin()">
+        <th *ngFor="let row of issueHeaders">{{row}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let issue of dataSource; let i = index">
+        <td>{{i+1}}</td>
+        <td>{{issue.title}}</td>
+        <td>{{issue.description}}</td>
+        <td>{{issue.solved | yesNo}}</td>
+        <td>{{issue.response | isResolved}}</td>
+        <td>{{issue.createdAt | date:'short'}}</td>
+        <td>{{issue.lastUpdate | date:'short'}}</td>
+        <td *ngIf="isAdmin()" style="width: 10%;">
+          <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#example"
+            (click)="resolve(issue.id)">
+            <i class="bi bi-check-circle"></i>
+          </button>
+          &nbsp;
+          <button class="btn btn-sm btn-danger" (click)="deleteIssue(issue.id)">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="!isAdmin()">
+  <h2>Raise an Issue</h2>
+  <hr>
+  <form #f="ngForm" (ngSubmit)="submit(f)">
+    <div class="form-group">
+      <input type="number" [(ngModel)]="empId" name="empId" class="form-control" id="empId" [value]="empId" hidden>
+    </div>
+    <div class="form-group">
+      <label for="title">Issue Title</label>
+      <input type="text" ngModel name="title" #title="ngModel" class="form-control" id="title"
+        placeholder="Give your Title">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Describe your Issue</label>
+      <textarea ngModel name="description" #description="ngModel" class="form-control" id="description" rows="10">
+          </textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
